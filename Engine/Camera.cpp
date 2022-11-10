@@ -16,7 +16,7 @@ void Camera::Initialize()
 	target_ = XMVectorSet(0, 0, 0, 0);	//カメラの焦点
 
 	//プロジェクション行列
-	projMatrix_ = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)800 / (FLOAT)600, 0.1f, 100.0f);
+	projMatrix_ = XMMatrixPerspectiveFovLH(XMConvertToRadians(45), (FLOAT)800 / (FLOAT)600, 10.0f, 200.0f);
 }
 
 //更新

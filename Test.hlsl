@@ -1,6 +1,13 @@
-//頂点シェーダー
-float4 VS( float4 pos : POSITION ) : SV_POSITION
+cbuffer gloabl
 {
+	float4x4 matW;
+};
+
+
+//頂点シェーダー
+float4 VS(float4 pos : POSITION) : SV_POSITION
+{
+	pos = mul(pos, matW);
 	return pos;
 }
 

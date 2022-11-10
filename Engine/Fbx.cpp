@@ -256,10 +256,12 @@ void Fbx::Draw(Transform& transform)
 	for (int i = 0; i < materialCount_; i++)
 	{
 		CONSTANT_BUFFER cb;
-		cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
-		cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
-		cb.diffuseColor = pMaterialList_[i].diffuse;
-		cb.isTexture = pMaterialList_[i].pTexture != nullptr;
+		cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix()* Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+
+		//cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+		//cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
+		//cb.diffuseColor = pMaterialList_[i].diffuse;
+		//cb.isTexture = pMaterialList_[i].pTexture != nullptr;
 
 
 		D3D11_MAPPED_SUBRESOURCE pdata;
