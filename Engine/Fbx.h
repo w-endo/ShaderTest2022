@@ -25,6 +25,8 @@ class Fbx
 	struct CONSTANT_BUFFER
 	{
 		XMMATRIX matWVP;
+		XMFLOAT4 color;
+		int		 isTexture;
 
 		//XMMATRIX	matWVP;
 		//XMMATRIX	matNormal;

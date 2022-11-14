@@ -206,7 +206,7 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 		//テクスチャ情報
 		FbxProperty  lProperty = pMaterial->FindProperty(FbxSurfaceMaterial::sDiffuse);
 
-		//テクスチャの数数
+		//テクスチャの数
 		int fileTextureCount = lProperty.GetSrcObjectCount<FbxFileTexture>();
 
 		//テクスチャあり
@@ -248,15 +248,22 @@ void Fbx::InitMaterial(fbxsdk::FbxNode* pNode)
 void Fbx::Draw(Transform& transform)
 {
 	Direct3D::SetShader(SHADER_3D);
-
 	transform.Calclation();
-
-
 
 	for (int i = 0; i < materialCount_; i++)
 	{
 		CONSTANT_BUFFER cb;
 		cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix()* Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+		cb.color = pMaterialList_[i].diffuse;
+		if (pMaterialList_[i].pTexture == nullptr)
+		{
+			cb.isTexture = false;
+		}
+		else
+		{
+			cb.isTexture = true;
+		}
+
 
 		//cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 		//cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());

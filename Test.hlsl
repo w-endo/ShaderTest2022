@@ -1,19 +1,37 @@
+Texture2D tex : register(t0);
+SamplerState smp : register(s0);
+
 cbuffer gloabl
 {
-	float4x4 matW;
+	float4x4 matWVP;
+	float4	 color;
+	bool	 isTexture;
 };
 
+struct VS_OUT
+{
+	float4 pos : SV_POSITION;
+	float2 uv  : TEXCOORD;
+};
 
 //頂点シェーダー
-float4 VS(float4 pos : POSITION) : SV_POSITION
+VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD)
 {
-	pos = mul(pos, matW);
-	return pos;
+	VS_OUT outData;
+	outData.pos = mul(pos, matWVP);
+	outData.uv = uv;
+	return outData;
 }
 
 //ピクセルシェーダー
-float4 PS(float4 pos : SV_POSITION) : SV_TARGET
+float4 PS(VS_OUT inData) : SV_TARGET
 {
-
-	return float4(1-(pos.x / 800), 1, 1, 1);
+	if (isTexture)
+	{
+		return tex.Sample(smp, inData.uv);
+	}
+	else
+	{
+		return color;
+	}
 }
