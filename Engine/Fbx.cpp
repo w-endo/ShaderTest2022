@@ -254,6 +254,7 @@ void Fbx::Draw(Transform& transform)
 	{
 		CONSTANT_BUFFER cb;
 		cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix()* Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+		cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
 		cb.color = pMaterialList_[i].diffuse;
 		if (pMaterialList_[i].pTexture == nullptr)
 		{
