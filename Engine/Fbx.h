@@ -26,13 +26,10 @@ class Fbx
 	{
 		XMMATRIX matWVP;
 		XMMATRIX matNormal;
+		XMMATRIX matW;
 		XMFLOAT4 color;
+		XMFLOAT4 camPos;
 		int		 isTexture;
-
-		//XMMATRIX	matWVP;
-		//XMMATRIX	matNormal;
-		//XMFLOAT4	diffuseColor;		// ディフューズカラー（マテリアルの色）
-		//int			isTexture;		// テクスチャ貼ってあるかどうか
 	};
 
 	struct VERTEX
