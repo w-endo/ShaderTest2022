@@ -1,6 +1,8 @@
 Texture2D tex : register(t0);
 SamplerState smp : register(s0);
 
+Texture2D texToon : register(t1);
+
 cbuffer gloabl
 {
 	float4x4 matWVP;
@@ -49,20 +51,26 @@ float4 PS(VS_OUT inData) : SV_TARGET
 	float4 S = dot(inData.normal, light);
 	S = clamp(S, 0, 1);
 
+	float2 uv;
+	uv.x = S;
+	uv.y = 0;
+	//return texToon.Sample(smp, uv);
+
+
 
 	float4 R = reflect(light, inData.normal);
 	specular = pow(clamp(dot(R, inData.V), 0, 1), 10) * 3;
 
 	if (isTexture)
 	{
-		diffuse = tex.Sample(smp, inData.uv) * S;
+		diffuse = tex.Sample(smp, inData.uv) * texToon.Sample(smp, uv);
 		ambient = tex.Sample(smp, inData.uv) * 0.2;
 	}
 	else
 	{
-		diffuse = color * S;
+		diffuse = color * texToon.Sample(smp, uv);
 		ambient = color * 0.2;
 	}
 
-	return diffuse + ambient + specular;
+	return diffuse /*+ ambient*/ + specular;
 }

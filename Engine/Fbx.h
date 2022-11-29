@@ -38,6 +38,9 @@ class Fbx
 		XMVECTOR uv;
 		XMVECTOR normal;
 	};
+
+	Texture* pTexToon_;
+
 	int vertexCount_;	//頂点数
 	int polygonCount_;	//ポリゴン数
 	int materialCount_;	//マテリアルの個数
