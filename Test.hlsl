@@ -7,7 +7,10 @@ cbuffer gloabl
 	float4x4 matNormal;
 	float4x4 matW;
 	float4	 color;
+	float4	 ambientColor;
+	float4	 specularColor;
 	float4	 camPos;
+	float	 shininess;
 	bool	 isTexture;
 };
 
@@ -51,17 +54,17 @@ float4 PS(VS_OUT inData) : SV_TARGET
 
 
 	float4 R = reflect(light, inData.normal);
-	specular = pow(clamp(dot(R, inData.V), 0, 1), 10) * 3;
+	specular = pow(clamp(dot(R, inData.V), 0, 1), shininess) * 3 * specularColor;
 
 	if (isTexture)
 	{
 		diffuse = tex.Sample(smp, inData.uv) * S;
-		ambient = tex.Sample(smp, inData.uv) * 0.2;
+		ambient = tex.Sample(smp, inData.uv) * ambientColor;
 	}
 	else
 	{
 		diffuse = color * S;
-		ambient = color * 0.2;
+		ambient = color * ambientColor;
 	}
 
 	return diffuse + ambient + specular;
