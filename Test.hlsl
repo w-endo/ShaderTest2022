@@ -1,6 +1,8 @@
 Texture2D tex : register(t0);
 SamplerState smp : register(s0);
 
+Texture2D texToon : register(t1);
+
 cbuffer gloabl
 {
 	float4x4 matWVP;
@@ -52,6 +54,12 @@ float4 PS(VS_OUT inData) : SV_TARGET
 	float4 S = dot(inData.normal, light);
 	S = clamp(S, 0, 1);
 
+	float2 uv;
+	uv.x = S;
+	uv.y = 0;
+	//return texToon.Sample(smp, uv);
+
+
 
 	float4 R = reflect(light, inData.normal);
 	specular = pow(clamp(dot(R, inData.V), 0, 1), shininess) * 3 * specularColor;
@@ -67,5 +75,23 @@ float4 PS(VS_OUT inData) : SV_TARGET
 		ambient = color * ambientColor;
 	}
 
-	return diffuse + ambient + specular;
+	return diffuse /*+ ambient*/ + specular;
+}
+
+//------------------------------------------
+
+//輪郭表示用の頂点シェーダー
+float4 VS_Outline(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL) : SV_POSITION
+{
+	normal.w = 0;
+	pos += normal*0.1;
+
+	pos = mul(pos, matWVP);
+	return pos;
+}
+
+//輪郭表示用のピクセルシェーダー
+float4 PS_Outline(VS_OUT inData) : SV_Target
+{
+	return float4(0,0,0,1);
 }
